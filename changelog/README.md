@@ -4,6 +4,7 @@
 
 ### 4.8.0 (in progress)
 
+- [improvement] JAVA-2828: Add safe paging state wrapper
 
 ### 4.7.2
 
