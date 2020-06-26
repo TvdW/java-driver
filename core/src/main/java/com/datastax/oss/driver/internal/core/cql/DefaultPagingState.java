@@ -27,6 +27,7 @@ import com.datastax.oss.protocol.internal.util.Bytes;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -132,14 +133,14 @@ public class DefaultPagingState implements PagingState {
     if (statement instanceof BoundStatement) {
       BoundStatement boundStatement = (BoundStatement) statement;
       String queryString = boundStatement.getPreparedStatement().getQuery();
-      messageDigest.update(queryString.getBytes());
+      messageDigest.update(queryString.getBytes(Charset.defaultCharset()));
       for (ByteBuffer value : boundStatement.getValues()) {
         messageDigest.update(value.duplicate());
       }
     } else {
       SimpleStatement simpleStatement = (SimpleStatement) statement;
       String queryString = simpleStatement.getQuery();
-      messageDigest.update(queryString.getBytes());
+      messageDigest.update(queryString.getBytes(Charset.defaultCharset()));
       for (Object value : simpleStatement.getPositionalValues()) {
         ByteBuffer encodedValue =
             ValuesHelper.encodeToDefaultCqlMapping(

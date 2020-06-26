@@ -29,7 +29,7 @@ import java.nio.ByteBuffer;
  */
 public interface PagingState {
 
-  /** Parses an instance from a string previously generated with {@link #toString()}. */
+  /** Parses an instance from a string previously generated with {@code toString()}. */
   @NonNull
   static PagingState fromString(@NonNull String string) {
     return DefaultPagingState.fromString(string);

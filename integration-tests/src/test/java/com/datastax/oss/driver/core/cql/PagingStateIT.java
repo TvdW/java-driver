@@ -126,7 +126,8 @@ public class PagingStateIT {
       // This is the case where we need the session: simple statements are not attached, so
       // setPagingState() cannot find the custom codec.
       try {
-        statement.setPagingState(pagingState);
+        @SuppressWarnings("unused")
+        SimpleStatement ignored = statement.setPagingState(pagingState);
         fail("Expected a CodecNotFoundException");
       } catch (CodecNotFoundException e) {
         // expected
@@ -158,10 +159,12 @@ public class PagingStateIT {
     PagingState pagingState = resultSet.getExecutionInfo().getSafePagingState();
 
     thrown.expect(IllegalArgumentException.class);
-    session
-        .prepare(SimpleStatement.newInstance(query2).setPageSize(15))
-        .bind(value2)
-        .setPagingState(pagingState);
+    @SuppressWarnings("unused")
+    BoundStatement ignored =
+        session
+            .prepare(SimpleStatement.newInstance(query2).setPageSize(15))
+            .bind(value2)
+            .setPagingState(pagingState);
   }
 
   static class IntWrapper {
